@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    environment: { POSTGRES_USER: gridwise, POSTGRES_PASSWORD: gridwise, POSTGRES_DB: gridwise }
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+  api:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg2://gridwise:gridwise@db:5432/gridwise
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in a .env file next to this file}
+      CORS_ORIGINS: http://localhost:5173
+    ports: ["8000:8000"]
+    depends_on: [db]
+volumes: { pgdata: {} }
