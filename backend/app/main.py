@@ -231,12 +231,54 @@ def summary(u=Depends(current_user), db=Depends(get_db)):
         recent_anomalies=len(an_), projection_basis="Average of the last 7 days of recorded data")
 
 @app.get("/analytics")
-def analytics(u=Depends(current_user), db=Depends(get_db)):
-    h = hourly_df(db, u)
-    if h.empty: return dict(hourly=[], daily=[], peak_kw=None)
-    hr = h.groupby(h.ts.dt.hour).kw.agg(["mean", "max"]).reset_index(); d = h.groupby(h.ts.dt.date).kwh.sum().reset_index()
-    return dict(hourly=[dict(hour=int(r.hour), avg_kw=round(r.mean, 3), peak_kw=round(r.max, 3)) for r in hr.itertuples()],
-                daily=[dict(date=str(r.ts), kwh=round(r.kwh, 2)) for r in d.itertuples()], peak_kw=round(h.kw.max(), 3))
+def analytics(user: User = Depends(current_user), db=Depends(get_db)):
+    h = hourly_df(db, user)
+
+    if h.empty:
+        return {
+            "hourly": [],
+            "daily": [],
+            "peak_kw": 0
+        }
+
+    # Hourly average and peak power
+    hourly_data = (
+        h.assign(hour=h.ts.dt.hour)
+        .groupby("hour")
+        .agg(
+            avg_kw=("kw", "mean"),
+            peak_kw=("kw", "max")
+        )
+        .reset_index()
+    )
+
+    # Daily energy consumption
+    daily_data = (
+        h.assign(date=h.ts.dt.date)
+        .groupby("date")
+        .agg(kwh=("kwh", "sum"))
+        .reset_index()
+    )
+
+    return {
+        "hourly": [
+            {
+                "hour": int(row["hour"]),
+                "avg_kw": round(float(row["avg_kw"]), 3),
+                "peak_kw": round(float(row["peak_kw"]), 3)
+            }
+            for _, row in hourly_data.iterrows()
+        ],
+        "daily": [
+            {
+                "date": str(row["date"]),
+                "kwh": round(float(row["kwh"]), 2)
+            }
+            for _, row in daily_data.iterrows()
+        ],
+        "peak_kw": round(float(h["kw"].max()), 3)
+    }
+
 
 @app.get("/anomalies")
 def anomalies(u=Depends(current_user), db=Depends(get_db)):

@@ -19,8 +19,17 @@ const titles = Object.fromEntries(groups.flatMap(([, g]) => g.map(([p, l]) => [p
 function Shell() {
   const nav = useNavigate(); const loc = useLocation(); const [open, setOpen] = useState(false); const me = useGet("/me");
   const [theme, setTheme] = useState(document.documentElement.dataset.theme); const sm = useGet("/dashboard/summary");
-  if (!tok.get()) return <Navigate to="/login" replace />;
-  const out = () => { tok.clear(); nav("/"); };
+  const demoAccess = localStorage.getItem("gw_demo_access") === "1";
+
+if (!tok.get() && !demoAccess) {
+    return <Navigate to="/" replace />;
+  }
+
+  const out = () => {
+    tok.clear();
+    localStorage.removeItem("gw_demo_access");
+    nav("/");
+  };
   const flip = () => { const t = theme === "dark" ? "light" : "dark"; document.documentElement.dataset.theme = t; localStorage.setItem("gw_theme", t); setTheme(t); };
   const title = titles[loc.pathname.replace(/^\/app\/?/, "")] || "Dashboard";
   const initials = (me.data?.name || "?").split(" ").map((x) => x[0]).slice(0, 2).join("").toUpperCase();
