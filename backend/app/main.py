@@ -340,3 +340,5 @@ def cost_tod(rebate: float = Query(0.8, ge=0, le=5), u=Depends(current_user), db
 
 app.include_router(datasets_mod.make(get_db, current_user))
 app.include_router(alerts_mod.make(get_db, current_user))
+from .ai_routes import router as ai_router
+app.include_router(ai_router)

@@ -1,6 +1,10 @@
 import { Routes, Route, Navigate, Link, NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Zap, LayoutDashboard, Activity, BarChart3, AlertTriangle, TrendingUp, IndianRupee, Lightbulb, Calculator, Cpu, FileText, Settings as Cog, Menu, LogOut, Sun, Moon, Upload } from "lucide-react";
+import {
+  Zap, LayoutDashboard, Activity, BarChart3, AlertTriangle,
+  TrendingUp, IndianRupee, Lightbulb, Calculator, Cpu, FileText,
+  Settings as Cog, Menu, LogOut, Sun, Moon, Upload, Bot
+} from "lucide-react";
 import { tok, api, useGet } from "./api.js";
 import Landing, { Legal, NotFound } from "./Landing.jsx";
 import { Wordmark } from "./ui.jsx";
@@ -8,11 +12,20 @@ import { SignIn, SignUp } from "./Auth.jsx";
 import Datasets from "./Datasets.jsx";
 import { AlertWatcher } from "./Alerts.jsx";
 import * as P from "./pages.jsx";
+import AIAssistant from "./AIAssistant.jsx";
 
 const Logo = () => <Link to="/" className="logo" aria-label="GridWise AI home"><Wordmark /></Link>;
 
 const groups = [["Overview", [["", "Overview", LayoutDashboard], ["live", "Live Energy", Activity], ["analytics", "Analytics", BarChart3]]],
-  ["Intelligence", [["anomalies", "Anomalies", AlertTriangle], ["forecasts", "Forecasts", TrendingUp], ["cost", "Cost Intelligence", IndianRupee], ["recommendations", "Recommendations", Lightbulb], ["simulator", "Savings Simulator", Calculator], ["datasets", "Upload Dataset", Upload]]],
+  ["Intelligence", [
+  ["ai-assistant", "AI Assistant", Bot],
+  ["anomalies", "Anomalies", AlertTriangle],
+  ["forecasts", "Forecasts", TrendingUp],
+  ["cost", "Cost Intelligence", IndianRupee],
+  ["recommendations", "Recommendations", Lightbulb],
+  ["simulator", "Savings Simulator", Calculator],
+  ["datasets", "Upload Dataset", Upload]
+]],
   ["Management", [["devices", "Devices", Cpu], ["reports", "Reports", FileText], ["settings", "Settings", Cog]]]];
 const titles = Object.fromEntries(groups.flatMap(([, g]) => g.map(([p, l]) => [p, l])));
 
@@ -49,6 +62,7 @@ export default function App() {
     <Route path="/login" element={<SignIn />} /><Route path="/signup" element={<SignUp />} />
     <Route path="/app" element={<Shell />}>
       <Route index element={<P.Overview />} /><Route path="live" element={<P.Live />} /><Route path="analytics" element={<P.Analytics />} />
+      <Route path="ai-assistant" element={<AIAssistant />} />
       <Route path="anomalies" element={<P.Anomalies />} /><Route path="forecasts" element={<P.Forecasts />} /><Route path="cost" element={<P.Cost />} />
       <Route path="recommendations" element={<P.Recs />} /><Route path="simulator" element={<P.Savings />} /><Route path="devices" element={<P.Devices />} />
       <Route path="reports" element={<P.Reports />} /><Route path="datasets" element={<Datasets />} /><Route path="settings" element={<P.SettingsPage />} />
