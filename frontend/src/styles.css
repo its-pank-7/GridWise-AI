@@ -682,3 +682,207 @@ input[aria-invalid=true]{border-color:var(--bad)}.arow{display:flex;justify-cont
     align-items: flex-start;
   }
 }
+
+
+
+/* GridWise AI - formatted assistant responses */
+
+.ai-formatted-response {
+  width: 100%;
+  min-width: 0;
+  color: var(--text, inherit);
+  font-size: 14px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.ai-formatted-response > :first-child {
+  margin-top: 0;
+}
+
+.ai-formatted-response > :last-child {
+  margin-bottom: 0;
+}
+
+.ai-response-heading {
+  margin: 20px 0 9px;
+  font-size: 15px;
+  font-weight: 750;
+  line-height: 1.45;
+  color: var(--text, inherit);
+}
+
+.ai-response-paragraph {
+  margin: 9px 0;
+}
+
+.ai-formatted-response strong {
+  font-weight: 750;
+  color: var(--text, inherit);
+}
+
+.ai-response-list {
+  margin: 9px 0 14px;
+  padding-left: 23px;
+}
+
+.ai-response-list li {
+  padding-left: 4px;
+  margin: 5px 0;
+}
+
+.ai-response-list li::marker {
+  color: var(--primary, #16a6a0);
+}
+
+.ai-formatted-response code {
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--surface-2, rgba(128,128,128,.13));
+  font-size: 12px;
+}
+
+.ai-response-divider {
+  border: 0;
+  border-top: 1px solid var(--border, rgba(128,128,128,.2));
+  margin: 17px 0;
+}
+
+.ai-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 14px 0;
+  border: 1px solid var(--border, rgba(128,128,128,.2));
+  border-radius: 10px;
+}
+
+.ai-response-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.ai-response-table th,
+.ai-response-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border, rgba(128,128,128,.15));
+  white-space: normal;
+}
+
+.ai-response-table th {
+  font-weight: 700;
+  background: var(--surface-2, rgba(128,128,128,.1));
+}
+
+.ai-response-table tr:last-child td {
+  border-bottom: 0;
+}
+
+
+/* GridWise AI - Full Screen Experience */
+
+.ai-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ai-fullscreen-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 13px;
+  border: 1px solid var(--border, #dce3e9);
+  border-radius: 9px;
+  background: var(--surface, #fff);
+  color: var(--text, #17212b);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.ai-fullscreen-btn:hover {
+  border-color: var(--primary, #0d9488);
+  color: var(--primary, #0d9488);
+  background: var(--surface-2, #f1f8f7);
+}
+
+.ai-page-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 18px !important;
+  overflow: hidden !important;
+  background: var(--bg, #f5f8fa);
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box;
+}
+
+.ai-page-fullscreen .ai-heading,
+.ai-page-fullscreen .ai-side-panel {
+  display: none !important;
+}
+
+.ai-page-fullscreen .ai-workspace {
+  display: flex !important;
+  flex: 1 !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  margin: 0 !important;
+  gap: 0 !important;
+}
+
+.ai-page-fullscreen .ai-chat-panel {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  border-radius: 14px;
+}
+
+.ai-page-fullscreen .ai-chat-top {
+  flex-shrink: 0;
+}
+
+.ai-page-fullscreen .ai-messages {
+  flex: 1 !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+}
+
+.ai-page-fullscreen .ai-composer,
+.ai-page-fullscreen .ai-disclaimer {
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .ai-page-fullscreen {
+    padding: 8px !important;
+  }
+
+  .ai-page-fullscreen .ai-secure-label {
+    display: none;
+  }
+
+  .ai-fullscreen-btn {
+    padding: 8px;
+  }
+
+  .ai-fullscreen-btn span {
+    display: none;
+  }
+}
